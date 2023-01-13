@@ -2,7 +2,7 @@ const fs = require('fs')
 const { createCanvas, registerFont } = require('canvas')
 const EmojiDbLib = require('emoji-db')
 const { loadImage } = require('canvas')
-const loadImageFromUrl = require('./image-load-url')
+const loadImageFromUrl = require('./image-load-path')
 const sharp = require('sharp')
 const Jimp = require('jimp')
 const smartcrop = require('smartcrop-sharp')
@@ -15,7 +15,7 @@ const emojiDb = new EmojiDbLib({ useDefaultDb: true })
 
 function loadFont () {
   console.log('font load start')
-  const fontsDir = 'assets/fonts/'
+  const fontsDir = process.env.QUOTLY_FONTS + '/'
 
   fs.readdir(fontsDir, (_err, files) => {
     files.forEach((file) => {
@@ -405,18 +405,18 @@ class QuoteGenerate {
       }
 
       let fontType = ''
-      let fontName = 'NotoSans'
+      let fontName = 'SFPro'
       let fillStyle = fontColor
 
+      if (styledWord.style.includes('monospace')) {
+        fontName = 'SFMono'
+        fillStyle = '#5887a7'
+      }
       if (styledWord.style.includes('bold')) {
-        fontType += 'bold '
+        fontName += 'Bold'
       }
       if (styledWord.style.includes('italic')) {
-        fontType += 'italic '
-      }
-      if (styledWord.style.includes('monospace')) {
-        fontName = 'SFNSMono'
-        fillStyle = '#5887a7'
+        fontName += 'Italic'
       }
       if (styledWord.style.includes('mention')) {
         fillStyle = '#6ab7ec'

@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const loadImageFromUrl = require('./image-load-url')
+const loadImageFromUrl = require('./image-load-path')
 const EmojiDbLib = require('emoji-db')
 const promiseAllStepN = require('./promise-concurrent')
 
