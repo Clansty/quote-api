@@ -13,25 +13,6 @@ const { Telegram } = require('telegraf')
 
 const emojiDb = new EmojiDbLib({ useDefaultDb: true })
 
-function loadFont () {
-  console.log('font load start')
-  const fontsDir = process.env.QUOTLY_FONTS + '/'
-
-  fs.readdir(fontsDir, (_err, files) => {
-    files.forEach((file) => {
-      try {
-        registerFont(`${fontsDir}${file}`, { family: file.replace(/\.[^/.]+$/, '') })
-      } catch (error) {
-        console.error(`${fontsDir}${file} not font file`)
-      }
-    })
-  })
-
-  console.log('font load end')
-}
-
-loadFont()
-
 const emojiImageByBrand = require('./emoji-image')
 
 const LRU = require('lru-cache')
@@ -405,18 +386,18 @@ class QuoteGenerate {
       }
 
       let fontType = ''
-      let fontName = 'SFPro'
+      let fontName = 'sans-serif'
       let fillStyle = fontColor
 
       if (styledWord.style.includes('monospace')) {
-        fontName = 'SFMono'
+        fontName = 'monospace'
         fillStyle = '#5887a7'
       }
       if (styledWord.style.includes('bold')) {
-        fontName += 'Bold'
+        fontType += 'bold '
       }
       if (styledWord.style.includes('italic')) {
-        fontName += 'Italic'
+        fontType += 'italic '
       }
       if (styledWord.style.includes('mention')) {
         fillStyle = '#6ab7ec'
