@@ -259,7 +259,7 @@ class QuoteGenerate {
         }
 
         if (entity.type === 'custom_emoji') {
-          styledChar[entity.offset].customEmojiId = entity.custom_emoji_id
+          styledChar[entity.offset].customEmoji = entity.emoji
         }
 
         for (let charIndex = entity.offset; charIndex < entity.offset + entity.length; charIndex++) {
@@ -315,7 +315,7 @@ class QuoteGenerate {
 
         if (charStyle.style) styledWords[stringNum].style = charStyle.style
         if (charStyle.emoji) styledWords[stringNum].emoji = charStyle.emoji
-        if (charStyle.customEmojiId) styledWords[stringNum].customEmojiId = charStyle.customEmojiId
+        if (charStyle.customEmoji) styledWords[stringNum].customEmoji = charStyle.customEmoji
       } else styledWords[stringNum].word += charStyle.char
     }
 
@@ -324,43 +324,6 @@ class QuoteGenerate {
 
     let textWidth = 0
 
-    // load custom emoji
-    const customEmojiIds = []
-
-    for (let index = 0; index < styledWords.length; index++) {
-      const word = styledWords[index]
-
-      if (word.customEmojiId) {
-        customEmojiIds.push(word.customEmojiId)
-      }
-    }
-
-    const getCustomEmojiStickers = await this.telegram.callApi('getCustomEmojiStickers', {
-      custom_emoji_ids: customEmojiIds
-    }).catch(() => {})
-
-    const customEmojiStickers = {}
-
-    const loadCustomEmojiStickerPromises = []
-
-    for (let index = 0; index < getCustomEmojiStickers.length; index++) {
-      const sticker = getCustomEmojiStickers[index]
-
-      loadCustomEmojiStickerPromises.push((async () => {
-        const getFileLink = await this.telegram.getFileLink(sticker.thumb.file_id).catch(() => {})
-
-        if (getFileLink) {
-          const load = await loadImageFromUrl(getFileLink).catch(() => {})
-          const imageSharp = sharp(load)
-          const sharpPng = await imageSharp.png({ lossless: true, force: true }).toBuffer()
-
-          customEmojiStickers[sticker.custom_emoji_id] = await loadImage(sharpPng).catch(() => {})
-        }
-      })())
-    }
-
-    await Promise.all(loadCustomEmojiStickerPromises).catch(() => {})
-
     let breakWrite = false
     for (let index = 0; index < styledWords.length; index++) {
       const styledWord = styledWords[index]
@@ -368,8 +331,8 @@ class QuoteGenerate {
       let emojiImage
 
       if (styledWord.emoji) {
-        if (styledWord.customEmojiId && customEmojiStickers[styledWord.customEmojiId]) {
-          emojiImage = customEmojiStickers[styledWord.customEmojiId]
+        if (styledWord.customEmoji) {
+          emojiImage = await loadImage(styledWord.customEmoji)
         } else {
           const emojiImageBase = emojiImageJson[styledWord.emoji.code]
           if (emojiImageBase) {
@@ -795,7 +758,7 @@ class QuoteGenerate {
         }
       ]
 
-      if (message.from.emoji_status) {
+      if (message.from.emoji_status && false) {
         name += ' 🤡'
 
         nameEntities.push({
