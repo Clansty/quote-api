@@ -19,32 +19,32 @@
   },
   "homepage": "https://github.com/LyoSU/quote-api#readme",
   "dependencies": {
-    "canvas": "git+https://github.com/Automattic/node-canvas#198080580a0e3938c48daae357b88a1638a9ddcd",
+    "canvas": "^2.11.2",
     "dotenv": "^7.0.0",
     "emoji-db": "^14.0.1",
-    "jimp": "^0.16.1",
-    "jsdom": "^16.5.3",
-    "koa": "^2.11.0",
-    "koa-bodyparser": "^4.2.1",
+    "jimp": "^0.22.10",
+    "jsdom": "^16.7.0",
+    "koa": "^2.15.0",
+    "koa-bodyparser": "^4.4.1",
     "koa-logger": "^3.2.1",
-    "koa-ratelimit": "^4.2.1",
+    "koa-ratelimit": "^4.3.0",
     "koa-response-time": "^2.1.0",
     "koa-router": "^7.4.0",
     "lottie-node": "^2.0.0",
-    "lottie-web": "^5.7.8",
+    "lottie-web": "^5.12.2",
     "lru-cache": "^5.1.1",
-    "object-sizeof": "^1.6.0",
+    "object-sizeof": "^1.6.3",
     "runes": "^0.4.3",
-    "sharp": "^0.30.5",
-    "smartcrop-sharp": "^2.0.4",
-    "telegraf": "^3.38.0"
+    "sharp": "^0.33.1",
+    "smartcrop-sharp": "^2.0.8",
+    "telegraf": "^3.40.0"
   },
   "devDependencies": {
-    "eslint": "^8.6.0",
+    "eslint": "^8.56.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-standard": "^4.1.0"
   }
 }
